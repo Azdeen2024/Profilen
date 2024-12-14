@@ -1,0 +1,184 @@
+﻿@page "/ListFeatureService"
+@using BlazorASG.Data.BlazarComponents.Authentication
+@inject NavigationManager Navigation
+@using BlazorASG.Data.BlazarComponents.Plans.TemFeturePlans2.DataModel
+@using BlazorASG.Data.BlazarComponents.Plans.TemFeturePlans2.Model
+@inject ISnackbar Snackbar
+<style>
+
+
+
+
+</style> 
+
+@if (Params != null)
+{
+
+        <MudDialog>
+            <DialogContent>
+
+                <MudGrid Gutter="3" Class="plan-grid">
+
+
+                 <MudItem xs="12" sm="6" md="4">
+                    <MudCard Class="plan-card">
+
+                    @foreach (var item in Params)
+                    {
+
+                            <FeatureService auth="auth" Params="@item" />
+                      
+                    }
+
+
+                    </MudCard>
+                    </MudItem>
+
+                </MudGrid>
+
+            </DialogContent>
+            <DialogActions>
+                   
+            <MudButton OnClick="Cancel" Color="Color.Primary" Variant="Variant.Filled">Cancel</MudButton>
+       
+   
+            </DialogActions>
+
+        </MudDialog>
+  
+    
+
+
+
+}
+   
+  
+ 
+
+else
+{
+    <MudAlert Severity="Severity.Error">@Error</MudAlert>
+}
+
+
+@code
+
+{
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+    [Parameter]
+    public bool TypeTransition { get; set; } = false;
+    public string Error { get; set; } = "No Data";
+    [Parameter]
+    public string IdCategry { get; set; }
+    [Parameter]
+    public Data.BlazarComponents.Shared.PageTransition PageTransition{ get; set;}
+
+    [Parameter] public List<PlanComponent>? Params { get; set; } = null;
+
+    [Parameter] public AuthComponent? auth { get; set; }
+    [Parameter] public EventCallback<PlanComponent> OnClick { get; set; }
+
+
+    public List<PlanComponent> planComponent = new List<PlanComponent>()
+
+    {
+        new PlanComponent()
+        {
+
+        Id = "COMP001",
+        Name = "Premium Plan",
+        Description = "Comprehensive plan for technical and control services.",
+        Status = "Active",
+        IsAuth = true,
+        IsMySelf = false,
+        IdCategory = "CATEGORY001",
+        ListservicesTechnicalAndModels = new List<TypeServicesTechnicalAndModel>
+        {
+            new TypeServicesTechnicalAndModel
+            {
+                Id = "TS001",
+                Name = "Server Maintenance",
+                Description = "Ensure servers are running optimally.",
+                Status = "Active",
+                IsAuth = true,
+                IsMySelf = false,
+                ListServices = new List<string> { "Backup Service", "Performance Monitoring", "Error Reporting" }
+            },
+            new TypeServicesTechnicalAndModel
+            {
+                Id = "TS002",
+                Name = "Cloud Integration",
+                Description = "Integrate with cloud platforms.",
+                Status = "Active",
+                IsAuth = false,
+                IsMySelf = true,
+                ListServices = new List<string> { "AWS Support", "Azure Setup", "Google Cloud Management" }
+            }
+        },
+        serviceTextsAndSounds = new List<TypeServiceTextsAndSound>
+        {
+            new TypeServiceTextsAndSound
+            {
+                Id = "CTRL001",
+                Name = "Audio Management",
+                Description = "Control audio playback and settings.",
+                Status = "Active",
+                IsAuth = true,
+                IsMySelf = false,
+                MaxCount = 5
+            },
+            new TypeServiceTextsAndSound
+            {
+                Id = "CTRL002",
+                Name = "Text Editing",
+                Description = "Advanced text formatting and editing.",
+                Status = "Inactive",
+                IsAuth = false,
+                IsMySelf = true,
+                MaxCount = 10
+            }
+        }
+    }
+
+
+
+  };
+
+
+    protected override void OnInitialized()
+    {
+
+        Params = planComponent;
+
+    }
+
+
+ 
+
+    private void Cancel() => MudDialog.Cancel();
+    private async void Submit(PlanComponent input)
+    {
+        try
+        {
+           @*   if (OnClick.HasDelegate)
+            {
+                await OnClick.InvokeAsync(input);
+            }   *@
+
+
+
+            MudDialog.Close(DialogResult.Ok(input));
+ 
+
+           // Snackbar.Add(input.Name, Severity.Success);
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+            StateHasChanged();
+        }
+    }
+    
+
+}

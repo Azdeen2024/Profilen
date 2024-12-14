@@ -1,0 +1,99 @@
+﻿ 
+@inject NavigationManager Navigation
+
+ 
+<MudCard Class="m-4" Outlined="true">
+   
+
+
+    <MudCardContent>
+        <MudGrid  Justify="Justify.SpaceBetween">
+                <MudItem xs="12" md="6">
+               
+                <MudText Typo="Typo.subtitle2"><b>Product Name:</b>@invoice.ProductName</MudText>
+                <MudText Typo="Typo.subtitle2"><b>Unit Price:</b>@invoice.UnitPrice:</MudText>
+
+                <MudText Typo="Typo.subtitle2"><b>Quantity:</b></MudText>
+                        <MudText Typo="Typo.body1" Color="Color.Primary">
+                    <MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="() =>DecrementQuantity(invoice)">-</MudButton>
+                    <span style="margin: 0 10px;">@invoice.Quantity</span>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success" OnClick="() => IncrementQuantity(invoice)">+</MudButton>
+                        </MudText>
+                     <MudText Typo="Typo.subtitle2"><b>Total Price:</b>@invoice.TotalPrice</MudText>
+                
+                    
+                </MudItem>
+            
+        </MudGrid>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="arrow_back" OnClick="NavigateBack">
+            Back
+        </MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code 
+{
+
+
+
+    private InvoiceDetailNumber invoice = new InvoiceDetailNumber()
+      {
+            Id ="2",
+            ProductName = "Max Request",
+            Quantity = 2,
+            UnitPrice = 2
+
+       };
+
+ 
+
+    [Parameter] public InvoiceDetailNumber? Params{ get; set;}
+   
+
+
+    public class InvoiceDetailNumber
+    {
+        public string Id{ get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set;}
+        public decimal UnitPrice { get; set; }
+        public decimal TotalPrice => Quantity * UnitPrice;
+
+    }
+
+   
+
+   
+
+  
+
+   
+    private void IncrementQuantity(InvoiceDetailNumber obj)
+    {
+        if (obj.Quantity >= 0)
+        {
+            obj.Quantity = obj.Quantity+1;
+
+        }
+    }
+
+   
+    private void DecrementQuantity(InvoiceDetailNumber obj)
+    {
+        if (obj.Quantity > 0)
+        {
+            obj.Quantity =obj. Quantity - 1;
+            
+        }
+    }
+
+  
+
+ 
+    private void NavigateBack()
+    {
+        Navigation.NavigateTo("/");
+    }
+}

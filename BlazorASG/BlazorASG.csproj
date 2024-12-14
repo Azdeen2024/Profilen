@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Infrastructure\**" />
+    <Compile Remove="NewFolder1\**" />
+    <Content Remove="Infrastructure\**" />
+    <Content Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="NewFolder1\**" />
+    <None Remove="Infrastructure\**" />
+    <None Remove="NewFolder1\**" />
+  </ItemGroup>
+	<ItemGroup>
+
+		<PackageReference Include="Blazorise.Captcha" Version="1.6.2" />
+
+		<PackageReference Include="Blazorise.Captcha.ReCaptcha" Version="1.6.2" />
+
+		<PackageReference Include="MudBlazor" Version="6.9.0" />
+		<PackageReference Include="Blazor-ApexCharts" Version="0.9.16-beta" />
+		<PackageReference Include="System.IO.Pipelines" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="Components\TemplateAuth.razor">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+		<Content Update="Components\TemplateGenerator.razor">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="EntityFramework" Version="6.5.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
+		
+		<PackageReference Include="IdentityModel" Version="6.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
+		<PackageReference Include="NSwag.AspNetCore" Version="8.0.2" />
+	    <PackageReference Include="Blazor-ApexCharts" Version="0.9.16-beta" />
+		<PackageReference Include="BlazorMaterialIcons" Version="0.0.1" />
+		<PackageReference Include="Blazorise.SpinKit" Version="1.1.4.1" />
+	
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Components\TemPlansBlazar\FeaturesPlansTem1\Shared\" />
+	  <Folder Include="Data\BlazarComponents\Plans\TemFeturePlans1\Css\" />
+	  <Folder Include="Data\BlazarComponents\Plans\TemFeturePlans1\Erorr\" />
+	  <Folder Include="Data\BlazarComponents\Plans\TemFeturePlans1\Variables\" />
+	  <Folder Include="Data\BlazarComponents\Plans\TemFeturePlans1\Shared\" />
+	  <Folder Include="NewFolder\" />
+	  <Folder Include="wwwroot\assets\images\Icon\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Application\Application.csproj" />
+	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
+ 
+
+
+</Project>
+
+
+

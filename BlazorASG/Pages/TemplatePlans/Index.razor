@@ -1,0 +1,163 @@
+﻿@page "/TemplatePlan"
+@using BlazorASG.Components.TemPlansBlazar.FeaturesPlansTem2
+@using BlazorASG.Data.BlazarComponents.Plans.Category.DataModel
+@using BlazorASG.Data.BlazarComponents.Plans.TemFeturePlans2.DataModel
+@using BlazorASG.Data.BlazarComponents.Plans.TemFeturePlans2.Model
+@inject NavigationManager Navigation
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+ 
+
+
+<section>
+
+    <div style="padding:10px!important">
+        <BlazorASG.Components.TemPlansBlazar.Category_Plans_Template.TemListCategorys OnClick="Submit" Params="@dataPlansCategory._listcategories" />
+    </div>
+
+    <div style="padding:10px!important">
+        <ListFeatureService Params="@planComponentt" />
+    </div>
+
+
+    
+    <div style="padding:10px!important">
+        <BlazorASG.Components.Profile.Profilee/>
+    </div>
+
+</section>
+
+ 
+@code
+{
+
+
+    public List<PlanComponent> planComponentt = new List<PlanComponent>()
+
+        {
+            new PlanComponent()
+            {
+
+            Id = "COMP001",
+            Name = "Premium Plan",
+            Description = "Comprehensive plan for technical and control services.",
+            Status = "Active",
+            IsAuth = true,
+            IsMySelf = false,
+            IdCategory = "CATEGORY001",
+            ListservicesTechnicalAndModels = new List<TypeServicesTechnicalAndModel>
+            {
+                new TypeServicesTechnicalAndModel
+                {
+                    Id = "TS001",
+                    Name = "Server Maintenance",
+                    Description = "Ensure servers are running optimally.",
+                    Status = "Active",
+                    IsAuth = true,
+                    IsMySelf = false,
+                    ListServices = new List<string> { "Backup Service", "Performance Monitoring", "Error Reporting" }
+                },
+                new TypeServicesTechnicalAndModel
+                {
+                    Id = "TS002",
+                    Name = "Cloud Integration",
+                    Description = "Integrate with cloud platforms.",
+                    Status = "Active",
+                    IsAuth = false,
+                    IsMySelf = true,
+                    ListServices = new List<string> { "AWS Support", "Azure Setup", "Google Cloud Management" }
+                }
+            },
+            serviceTextsAndSounds = new List<TypeServiceTextsAndSound>
+            {
+                new TypeServiceTextsAndSound
+                {
+                    Id = "CTRL001",
+                    Name = "Audio Management",
+                    Description = "Control audio playback and settings.",
+                    Status = "Active",
+                    IsAuth = true,
+                    IsMySelf = false,
+                    MaxCount = 5
+                },
+                new TypeServiceTextsAndSound
+                {
+                    Id = "CTRL002",
+                    Name = "Text Editing",
+                    Description = "Advanced text formatting and editing.",
+                    Status = "Inactive",
+                    IsAuth = false,
+                    IsMySelf = true,
+                    MaxCount = 10
+                }
+            }
+        }
+
+
+
+      };
+    DesignCompontsServicesLahja designCompontsServicesLahja = new DesignCompontsServicesLahja();
+
+    public  DataPlansCategory dataPlansCategory = new DataPlansCategory();
+    public Data.BlazarComponents.Plans.TemFeturePlans1.DataModel.DataFeature dataFeature = new Data.BlazarComponents.Plans.TemFeturePlans1.DataModel.DataFeature();
+    public DataFeature dataFeaturee= new DataFeature();
+
+
+
+
+
+    private async void Submit(Data.BlazarComponents.Plans.Category.Model.InputCategory inputCategory)
+    {
+        if (inputCategory != null)
+        {
+
+            await ShowFeatureService(inputCategory);
+
+
+        }
+    }
+    private async void SubmitListFeature(BlazorASG.Data.BlazarComponents.Plans.TemFeturePlans1.Model.FeaturesPlansTem1 plans)
+    {
+        if (plans != null)
+        {
+            Snackbar.Add(plans.ProductName, Severity.Success);
+        }
+    }
+    private async Task ShowFeatureService(Data.BlazarComponents.Plans.Category.Model.InputCategory inputCategory)
+    {
+        try
+        {
+
+
+            Data.BlazarComponents.Authentication.AuthComponent authComponent = new Data.BlazarComponents.Authentication.AuthComponent();
+            var parameters = new DialogParameters<ListFeatureService>
+        {
+
+
+             {x => x.TypeTransition,true},
+            {x => x.IdCategry,inputCategory.IdPlans},
+            {x=>x.auth,authComponent}
+           
+        };
+
+            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge,FullWidth=true};
+            var dialog = await DialogService.ShowAsync<ListFeatureService>("",parameters, options);
+            var result = await dialog.Result;
+            if (!result.Canceled)
+            {
+              //  var pbj =(Data.BlazarComponents.Plans.TemFeturePlans2.Model.PlansFeture)result.Data;
+               // Snackbar.Add(pbj.Name, Severity.Error);
+            }
+
+            
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+
+
+    }
+
+}
